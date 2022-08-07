@@ -1,5 +1,5 @@
 {
-  "name": "@huang-julien/history-state",
+  "name": "@huang-julien/data-history",
   "version": "0.0.1",
   "description": "A simple history manager, written in TS",
   "main": "dist/index.mjs",

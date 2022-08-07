@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import { clone, isEqual } from 'lodash'
 import { HistoryStateOpts } from '../types/HistoryState'
 import { HistoryManager } from './HistoryManager'
 
@@ -62,7 +62,7 @@ export class HistoryState<S> {
 		if(onRedo) {
 			this.onRedo = onRedo
 		}
-		this.__originalState = originalState
+		this.__originalState = clone(originalState)
 	}
 
 	/**

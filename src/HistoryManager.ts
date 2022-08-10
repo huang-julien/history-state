@@ -7,26 +7,41 @@ import { IHistoryChange } from '../types/HistoryManager'
  *
  */
 export class HistoryManager {
+	/**
+	 * stack of IHistoryChange
+	 */
 	private __states: IHistoryChange[] = []
   
+	/**
+	 * current pointer
+	 */
 	private __pointer = -1
   
+	/**
+	 * return the states stack
+	 */
 	get states (): IHistoryChange[] {
 		return this.__states
 	}
 
+	/**
+	 * getter of the current state
+	 */
 	get currentState(): Readonly<IHistoryChange>|undefined {
 		return this.__states[this.__pointer] ?? undefined
 	}
   
+	/**
+	 * getter of the pointer
+	 */
 	get pointerPosition (): number {
 		return this.__pointer
 	}
   
 	/**
-     * trigger roll back by looping over the array state
-     * @param count
-     */
+	 * It rolls back the state of the object to the previous state
+	 * @param count - The number of states to rollback.
+	 */
 	rollback (count = 1): void {
 		while (count > 0) {
 			this.__states[this.__pointer > -1 ? this.__pointer : 0].instance.rollback()
@@ -37,8 +52,9 @@ export class HistoryManager {
 	}
   
 	/**
-     * reassign values with redo
-     */
+	 * If there are more states than the current pointer, increment the pointer and call the redo function
+	 * of the state at the current pointer
+	 */
 	redo (): void {
 		if (this.__states.length > (this.__pointer + 1)) {
 			this.__pointer++

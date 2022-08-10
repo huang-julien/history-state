@@ -56,17 +56,17 @@ export class HistoryState<S> {
 		this.__originalState = clone(originalState)
 	}
 
+
 	/**
-	 * get the modification state list
-	 * Frozen to avoid accidental modifications
+	 * @returns The states array.
 	 */
 	get states(): Readonly<S[]> {
 		return this.__states
 	}
 
+
 	/**
-	 * get the current state
-	 * Frozen to avoid accidental modifications
+	 * @returns The current state of the object.
 	 */
 	get currentState(): S {
 		return this.__pointer > -1 ? this.__states[this.__pointer] : this.__originalState

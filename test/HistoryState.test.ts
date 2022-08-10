@@ -32,7 +32,7 @@ describe('test history state as standalone', () => {
 
 	it('rollback', () => {
 		data = 'hello'
-		historyState.registerChange(data)
+		historyState.commitChange(data)
 		expect(data).toBe('hello')
 		historyState.rollback()
 		expect(data).toBe('')

@@ -21,6 +21,6 @@ export class DataExtended extends HistoryState<string> {
 
 	set data(value: string) {
 		this.__data = value
-		this.registerChange(value)
+		this.commitChange(value)
 	}
 }

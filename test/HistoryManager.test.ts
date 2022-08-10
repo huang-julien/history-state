@@ -24,7 +24,7 @@ describe('Test history Manager', () => {
 	it('add a new entry in the localhistory', () => {
 		expect(localHistory.currentState).toBe(data)
 		data = 'hello'
-		localHistory.registerChange(data)
+		localHistory.commitChange(data)
 		expect(data).toBe('hello')
 		expect(localHistory.currentState).toBe(data)
 		expect(mockOnStateChange).toHaveBeenCalledTimes(0)
@@ -58,9 +58,9 @@ describe('Test history Manager', () => {
 
 	it('trigger 2 change before rollback', () => {
 		data = 'test 1'
-		localHistory.registerChange(data)
+		localHistory.commitChange(data)
 		data = 'test 2'
-		localHistory.registerChange(data)
+		localHistory.commitChange(data)
 		history.rollback()
 		expect(data).toBe('test 1')
 	})

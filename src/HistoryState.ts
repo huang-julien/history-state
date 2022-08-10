@@ -103,7 +103,7 @@ export class HistoryState<S> {
 	 * remove all states after the pointer before adding
 	 * @param value
 	 */
-	registerChange(value: S): void {
+	commitChange(value: S): void {
 		if (!isEqual(value, this.__states[this.__pointer])) {
 			this.__states.length = this.__pointer + 1 >= -1 ? this.__pointer + 1 : 0
 			this.__states.push(value)

@@ -24,10 +24,7 @@ describe('test history state as standalone', () => {
 	let data = ''
 
 	const historyState = new HistoryState<string>({
-		onRedo: (value: string) => {
-			data = value
-		},
-		onRollback: (value: string) => {
+		onStateChange: (value: string) => {
 			data = value
 		},
 		originalState: ''

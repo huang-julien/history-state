@@ -11,11 +11,7 @@ export class DataExtended extends HistoryState<string> {
 		})
 	}
 
-	onRedo(value: string) {
-		this.__data = value
-	}
-
-	onRollback(value: string) {
+	__onStateChange(value: string) {
 		this.__data = value
 	}
 

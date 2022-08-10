@@ -32,22 +32,16 @@ export class HistoryState<S> {
 	 */
 	protected __historyManager: HistoryManager | undefined
 
-	/**
-	 * callback to trigger when rollbacking
-	 * @protected
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected onRollback(_val: S, _states: S[]): void {
-		console.warn('please extend onRedo() or pass the callback in the options')
-	}
 
 	/**
-	 * callback to trigger when redoing
-	 * @protected
+	 * This function is called whenever the state changes, and it's up to you to decide what to do with
+	 * it.
+	 * @param {S} _val - the current state
+	 * @param {S[]} _states - states of the stack
+	 * @param {'redo' | 'undo'} _type - 'redo' | 'undo'
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	protected onRedo(_val: S, _states: S[]): void {
-		console.warn('please extend onRedo() or pass the callback in the options')
+	protected __onStateChange(_val: S, _states: S[], _type: 'redo' | 'undo') {
+		console.warn('please overwrite the __onStateChange method')
 	}
 
 	constructor(opts: HistoryStateOpts<S>, historyManager?: HistoryManager) {
@@ -55,12 +49,9 @@ export class HistoryState<S> {
 			if (!(historyManager instanceof HistoryManager)) throw new TypeError('historyManager must be an instance of HistoryManager')
 			this.__historyManager = historyManager
 		}
-		const { onRollback, onRedo, originalState } = opts
-		if(onRollback) {
-			this.onRollback = onRollback
-		}
-		if(onRedo) {
-			this.onRedo = onRedo
+		const { onStateChange, originalState } = opts
+		if(onStateChange) {
+			this.__onStateChange = onStateChange
 		}
 		this.__originalState = clone(originalState)
 	}
@@ -88,10 +79,10 @@ export class HistoryState<S> {
 	rollback(): void {
 		this.__pointer--
 		if (this.__pointer <= -1) {
-			this.onRollback(this.__originalState, this.__states)
+			this.__onStateChange(this.__originalState, this.__states, 'undo')
 			this.__pointer = -1
 		} else {
-			this.onRollback(this.__states[this.__pointer], this.__states)
+			this.__onStateChange(this.__states[this.__pointer], this.__states, 'undo')
 		}
 	}
 
@@ -102,7 +93,7 @@ export class HistoryState<S> {
 	redo(): void {
 		if (this.__states.length > this.__pointer + 1) {
 			this.__pointer++
-			this.onRedo(this.__states[this.__pointer], this.__states)
+			this.__onStateChange(this.__states[this.__pointer], this.__states, 'redo')
 		}
 	}
 

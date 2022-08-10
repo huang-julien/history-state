@@ -6,17 +6,12 @@ describe('Test history Manager', () => {
 	const history = new HistoryManager()
 	let data = ''
 
-	const mockRollback = vi.fn((val: string) => {
-		data = val
-	})
-
-	const mockRedo = vi.fn((val: string) => {
+	const mockOnStateChange = vi.fn((val: string) => {
 		data = val
 	})
 
 	const localHistory = new HistoryState<string>({
-		onRedo: mockRedo,
-		onRollback: mockRollback,
+		onStateChange: mockOnStateChange,
 		originalState: data
 	}, history)
 
@@ -32,8 +27,7 @@ describe('Test history Manager', () => {
 		localHistory.registerChange(data)
 		expect(data).toBe('hello')
 		expect(localHistory.currentState).toBe(data)
-		expect(mockRollback).toHaveBeenCalledTimes(0)
-		expect(mockRedo).toHaveBeenCalledTimes(0)
+		expect(mockOnStateChange).toHaveBeenCalledTimes(0)
 		expect(localHistory.states).toHaveLength(1)
 		expect(spyOnHistoryAddRollback).toHaveBeenCalledOnce()
 		expect(history.states).toHaveLength(1)
@@ -43,8 +37,7 @@ describe('Test history Manager', () => {
 	it('trigger Rollback', () => {
 		history.rollback()
 		expect(data).toBe('')
-		expect(mockRollback).toHaveBeenCalledOnce()
-		expect(mockRedo).toHaveBeenCalledTimes(0)
+		expect(mockOnStateChange).toHaveBeenCalledOnce()
 		expect(history.states).toHaveLength(1)
 		expect(history.pointerPosition).toBe(-1)
 	})
@@ -52,8 +45,7 @@ describe('Test history Manager', () => {
 	it('retrigger rollback (should not change anything)', () => {
 		history.rollback()
 		expect(data).toBe('')
-		expect(mockRollback).toHaveBeenCalledOnce()
-		expect(mockRedo).toHaveBeenCalledTimes(0)
+		expect(mockOnStateChange).toHaveBeenCalledOnce()
 		expect(history.states).toHaveLength(1)
 		expect(history.pointerPosition).toBe(-1)
 	})
@@ -61,8 +53,7 @@ describe('Test history Manager', () => {
 	it('trigger redo', () => {
 		history.redo()
 		expect(data).toBe('hello')
-		expect(mockRedo).toHaveBeenCalledOnce()
-		expect(mockRollback).toHaveBeenCalledTimes(0)
+		expect(mockOnStateChange).toHaveBeenCalledOnce()
 	})
 
 	it('trigger 2 change before rollback', () => {

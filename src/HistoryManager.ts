@@ -42,7 +42,7 @@ export class HistoryManager {
 	 * It rolls back the state of the object to the previous state
 	 * @param count - The number of states to rollback.
 	 */
-	rollback (count = 1): void {
+	undo (count = 1): void {
 		while (count > 0) {
 			this.__states[this.__pointer > -1 ? this.__pointer : 0].instance.undo()
 			if (this.__pointer > -1) { this.__pointer-- }

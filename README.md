@@ -1,15 +1,43 @@
 # A simple library for state history management
 
+## How it works
+
+this library provide two classes:
+ * `HistoryState`
+This class handle the history of whatever you want and can be extended.
+ * `HistoryManager`
+This class handle traces of multiple `HistoryState` changes.
+If you are using a HistoryManager on a HistoryState, avoid using `rollback()` or `redo()` from the `HistoryState` instance but instead call it from the `HistoryManager`
+
+## Methods
+
+### HistoryState
+
+````ts
+/**
+ * method to override if you are extending HistoryState
+ */
+__onStateChange(value: S, states: S[], type: 'redo'|'undo'): void
+
+/**
+ * method to call to commit a change
+ * you have to call this method everytime you want to commit a change
+ */
+commitChange(value: S): void
+
+/**
+ *  
+ */
+redo(): void
+````
+
 ## Basic usage
 
 ````ts 
 let data = ''
 
 const dataHistory = new HistoryState<string>({
-    onRollback: (value: string) => {
-        data = value
-    },
-    onRedo: (value: string) => {
+    onStateChange: (value: string, states: string[], type: 'redo'|'undo') => {
         data = value
     },
     originalState = ''
@@ -34,21 +62,15 @@ let world = 'world'
 const statesHistory = new HistoryManager()
 
 const helloStateHistory = new HistoryState({
-    onRollback: (value: string) => {
-        hello = value
-    },
-    onRedo: (value: string) => {
-        hello = value
+    onStateChange: (value: string, states: string[], type: 'redo'|'undo') => {
+        data = value
     },
     originalState: hello
 }, statesHistory)
 
 const worldStateHistory = new HistoryState({
-    onRollback: (value: string) => {
-        world = value
-    },
-    onRedo: (value: string) => {
-        world = value
+    onStateChange: (value: string, states: string[], type: 'redo'|'undo') => {
+        data = value
     },
     originalState: world
 }, statesHistory)
@@ -105,13 +127,7 @@ class SomeData extends HistoryState<THistoryState> {
         })
     }
 
-    onRollback(s: THistoryState) {
-        const { hello, world } = s
-        this.#hello = hello
-        this.#world = world
-    }
-
-    onRedo(s: THistoryState) {
+    __onStateChange(s: THistoryState) {
         const { hello, world } = s
         this.#hello = hello
         this.#world = world

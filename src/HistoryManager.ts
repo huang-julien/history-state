@@ -44,7 +44,7 @@ export class HistoryManager {
 	 */
 	rollback (count = 1): void {
 		while (count > 0) {
-			this.__states[this.__pointer > -1 ? this.__pointer : 0].instance.rollback()
+			this.__states[this.__pointer > -1 ? this.__pointer : 0].instance.undo()
 			if (this.__pointer > -1) { this.__pointer-- }
 			if (this.__pointer <= -1) { break }
 			count--

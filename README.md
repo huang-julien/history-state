@@ -7,7 +7,7 @@ this library provide two classes:
 This class handle the history of whatever you want and can be extended.
  * `HistoryManager`
 This class handle traces of multiple `HistoryState` changes.
-If you are using a HistoryManager on a HistoryState, avoid using `rollback()` or `redo()` from the `HistoryState` instance but instead call it from the `HistoryManager`
+If you are using a HistoryManager on a HistoryState, avoid using `undo()` or `redo()` from the `HistoryState` instance but instead call it from the `HistoryManager`
 
 ## Methods
 
@@ -26,9 +26,27 @@ __onStateChange(value: S, states: S[], type: 'redo'|'undo'): void
 commitChange(value: S): void
 
 /**
- *  
+ *  method to call to redo changes
  */
 redo(): void
+
+/**
+ * method to call to undo changes
+ */
+undo(): void 
+````
+### HistoryManager
+````ts
+
+/**
+ *  method to call to redo changes
+ */
+redo(): void
+
+/**
+ * method to call to undo changes
+ */
+undo(): void 
 ````
 
 ## Basic usage

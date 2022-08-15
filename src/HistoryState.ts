@@ -76,7 +76,7 @@ export class HistoryState<S> {
 	 * rollback to previous state
 	 * should be triggered only by the HistoryManager if this is in a history manager instance
 	 */
-	rollback(): void {
+	undo(): void {
 		this.__pointer--
 		if (this.__pointer <= -1) {
 			this.__onStateChange(this.__originalState, this.__states, 'undo')

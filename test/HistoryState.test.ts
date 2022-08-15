@@ -10,7 +10,7 @@ describe('test history state as a class', () => {
 	it('rollback', () => {
 		extended.data = 'hello'
 		expect(extended.data).toBe('hello')
-		extended.rollback()
+		extended.undo()
 		expect(extended.data).toBe('')
 	})
 
@@ -34,7 +34,7 @@ describe('test history state as standalone', () => {
 		data = 'hello'
 		historyState.commitChange(data)
 		expect(data).toBe('hello')
-		historyState.rollback()
+		historyState.undo()
 		expect(data).toBe('')
 	})
 

@@ -35,7 +35,7 @@ describe('Test history Manager', () => {
 	})
 
 	it('trigger Rollback', () => {
-		history.rollback()
+		history.undo()
 		expect(data).toBe('')
 		expect(mockOnStateChange).toHaveBeenCalledOnce()
 		expect(history.states).toHaveLength(1)
@@ -43,7 +43,7 @@ describe('Test history Manager', () => {
 	})
 
 	it('retrigger rollback (should not change anything)', () => {
-		history.rollback()
+		history.undo()
 		expect(data).toBe('')
 		expect(mockOnStateChange).toHaveBeenCalledOnce()
 		expect(history.states).toHaveLength(1)
@@ -61,7 +61,7 @@ describe('Test history Manager', () => {
 		localHistory.commitChange(data)
 		data = 'test 2'
 		localHistory.commitChange(data)
-		history.rollback()
+		history.undo()
 		expect(data).toBe('test 1')
 	})
 })

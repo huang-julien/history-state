@@ -65,7 +65,7 @@ data = 'hello'
 
 dataHistory.registerChange(data)
 
-dataHistory.rollback() // data === ''
+dataHistory.undo() // data === ''
 data.redo() // data === 'hello'
 ````
 
@@ -96,16 +96,16 @@ const worldStateHistory = new HistoryState({
 hello = 'test'
 helloStateHistory.registerChange(hello)
 
-/* call the redo and rollback from HistoryManager */
-statesHistory.rollback() // hello === 'hello'; world === 'world';
+/* call the redo and undo from HistoryManager */
+statesHistory.undo() // hello === 'hello'; world === 'world';
 statesHistory.redo() // hello === 'test'; world === 'world';
 ````
 
-In this case, don't call `redo()` and `rollback()` on the `HistoryState` instances but call theses methods from the `HistoryManager` instance
+In this case, don't call `redo()` and `undo()` on the `HistoryState` instances but call theses methods from the `HistoryManager` instance
 
 ## Extend HistoryState
 A class can extends the `HistoryState` class.
-Instead of passing `onRedo` and `onRollback` in the options, these methods can be overriden.
+Instead of passing `onStateChange`, these methods can be overriden.
 
 ````ts
 type THistoryState = {hello: string, world: string}

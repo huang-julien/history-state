@@ -1,6 +1,7 @@
 import { HistoryState } from './../src/HistoryState'
 import { DataExtended } from './setupClass'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import { HistoryManager } from '../src'
 
 describe('test history state as a class', () => {
 
@@ -41,5 +42,27 @@ describe('test history state as standalone', () => {
 	it('redo', () => {
 		historyState.redo()
 		expect(data).toBe('hello')
+	})
+})
+
+describe('test history state throws with HistoryManager', () => {
+	const history = new HistoryManager()
+	let data = ''
+
+	const mockOnStateChange = vi.fn((val: string) => {
+		data = val
+	})
+
+	const localHistory = new HistoryState<string>({
+		onStateChange: mockOnStateChange,
+		originalState: data
+	}, history)
+
+	it.fails('throw when undoing State', () => {
+		expect(localHistory.undo).toThrowError('This HistoryState instance has a HistoryManager, please call undo from the HistoryManager instance')
+	})
+
+	it.fails('throw when redoing state', () => {
+		expect(localHistory.redo).toThrowError('This HistoryState instance has a HistoryManager, please call undo from the HistoryManager instance')
 	})
 })

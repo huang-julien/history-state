@@ -44,7 +44,7 @@ export class HistoryManager {
 	 */
 	undo (count = 1): void {
 		while (count > 0) {
-			this.__states[this.__pointer > -1 ? this.__pointer : 0].instance.undo()
+			this.__states[this.__pointer > -1 ? this.__pointer : 0].instance.__undo()
 			if (this.__pointer > -1) { this.__pointer-- }
 			if (this.__pointer <= -1) { break }
 			count--
@@ -59,7 +59,7 @@ export class HistoryManager {
 		if (this.__states.length > (this.__pointer + 1)) {
 			this.__pointer++
 			const change = this.__states[this.__pointer]
-			change.instance.redo()
+			change.instance.__redo()
 		}
 	}
 

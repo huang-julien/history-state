@@ -1,6 +1,6 @@
 {
   "name": "@huang-julien/history-state",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple state history manager, written in TS",
   "type": "module",
   "main": "./dist/index.mjs",  

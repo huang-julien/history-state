@@ -69,6 +69,7 @@ export class HistoryManager {
      * remove all states after the pointer before adding
      * @param change
 	 * should be oly triggered by the HistoryState class
+	 * @internal
      */
 	__addRollback (change: IHistoryChange): void {
 		if (this.__states.length > 0 && this.__pointer < (this.__states.length - 1)) {

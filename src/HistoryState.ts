@@ -76,7 +76,7 @@ export class HistoryState<S> {
 	 * rollback to previous state
 	 * should be triggered only by the HistoryManager if this is in a history manager instance
 	 */
-	undo(): void {
+	__undo(): void {
 		this.__pointer--
 		if (this.__pointer <= -1) {
 			this.__onStateChange(this.__originalState, this.__states, 'undo')
@@ -88,13 +88,34 @@ export class HistoryState<S> {
 
 	/**
 	 * redo to next state
-	 * should be triggered only by the HistoryManager if this is in a history manager instance
 	 */
-	redo(): void {
+	__redo(): void {
 		if (this.__states.length > this.__pointer + 1) {
 			this.__pointer++
 			this.__onStateChange(this.__states[this.__pointer], this.__states, 'redo')
 		}
+	}
+
+	/**
+	 * If the HistoryState instance has a HistoryManager, throw an error. Otherwise, call the __undo
+	 * function.
+	 */
+	undo(){
+		if(this.__historyManager) {
+			throw new Error('This HistoryState instance has a HistoryManager, please call undo from the HistoryManager instance')
+		}
+		this.__undo()
+	}
+
+	/**
+	 * If the HistoryState instance has a HistoryManager, throw an error. Otherwise, call the __redo
+	 * function.
+	 */
+	redo(){
+		if(this.__historyManager) {
+			throw new Error('This HistoryState instance has a HistoryManager, please call undo from the HistoryManager instance')
+		}
+		this.__redo()
 	}
 
 	/**

@@ -75,6 +75,7 @@ export class HistoryState<S> {
 	/**
 	 * rollback to previous state
 	 * should be triggered only by the HistoryManager if this is in a history manager instance
+	 * @internal
 	 */
 	__undo(): void {
 		this.__pointer--
@@ -88,6 +89,7 @@ export class HistoryState<S> {
 
 	/**
 	 * redo to next state
+	 * @internal
 	 */
 	__redo(): void {
 		if (this.__states.length > this.__pointer + 1) {

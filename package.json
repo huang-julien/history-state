@@ -1,15 +1,25 @@
 {
-  "name": "@huang-julien/data-history",
-  "version": "0.0.1",
-  "description": "A simple history manager, written in TS",
-  "main": "dist/index.mjs",
+  "name": "@huang-julien/history-state",
+  "version": "1.0.0",
+  "description": "A simple state history manager, written in TS",
+  "type": "module",
+  "main": "./dist/index.mjs",  
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/huang-julien/history-state",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huang-julien/history-state"
+  },
   "scripts": {
     "test": "vitest",
     "lint": "eslint --ext .ts .",
     "prepack": "unbuild"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Julien Huang",
+  "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
@@ -21,5 +31,10 @@
     "unbuild": "^0.8.8",
     "vite": "^3.0.4",
     "vitest": "^0.21.0"
-  }
+  },
+  "keywords": [
+    "state management",
+    "history state",
+    "data history"
+  ]
 }
